@@ -1,1 +1,326 @@
-.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frank Kaumba | Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <style>
+        /* Previous styles remain exactly the same */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loader-text {
+            color: #fff;
+            font-size: 2rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ff99;
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #00ff99, 0 0 30px #00ff99;
+            }
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #00ff9980, #00ffff80);
+            clip-path: circle(30% at 90% 20%);
+            z-index: -1;
+        }
+
+        /* New Device Info Panel */
+        .device-info {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            transform: translateX(200px);
+            transition: transform 0.3s ease;
+        }
+
+        .device-info.show {
+            transform: translateX(0);
+        }
+
+        .device-info p {
+            color: #00ff99;
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .battery-indicator {
+            width: 50px;
+            height: 20px;
+            border: 2px solid #00ff99;
+            border-radius: 3px;
+            display: inline-block;
+            position: relative;
+            margin-left: 10px;
+        }
+
+        .battery-level {
+            height: 100%;
+            background: #00ff99;
+            transition: width 0.3s ease;
+        }
+
+        /* Rest of the previous styles remain exactly the same */
+        .header-content h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .header-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .typed-text {
+            color: #00ff99;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .social-links a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: rgba(0, 255, 153, 0.2);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .header-content h1 {
+                font-size: 3rem;
+            }
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .device-info {
+                font-size: 0.8rem;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Device Info Panel -->
+    <div class="device-info">
+        <p>🔋 Battery: <span id="battery-percent">--</span>%
+            <div class="battery-indicator">
+                <div class="battery-level" id="battery-level"></div>
+            </div>
+        </p>
+        <p id="charging-status">⚡ Status: Checking...</p>
+        <p>🌐 IP: <span id="ip-address">Loading...</span></p>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loader-text">WELCOME</div>
+    </div>
+
+    <!-- Main Content -->
+    <header class="header">
+        <div class="header-content">
+            <h1>Frank Kaumba</h1>
+            <p>From Malawi 🇲🇼</p>
+            <p class="typed-text"></p>
+        </div>
+    </header>
+
+    <!-- Footer with Social Links -->
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://wa.me/265993702468" target="_blank">
+                📱 WhatsApp
+            </a>
+            <a href="https://facebook.com/efkidtrapgamer" target="_blank">
+                👤 Facebook
+            </a>
+            <a href="https://t.me/efkidgamer" target="_blank">
+                ✈️ Telegram
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Device Info Functions
+        async function getBatteryInfo() {
+            try {
+                const battery = await navigator.getBattery();
+                
+                function updateBatteryInfo() {
+                    const level = Math.floor(battery.level * 100);
+                    document.getElementById('battery-percent').textContent = level;
+                    document.getElementById('battery-level').style.width = level + '%';
+                    document.getElementById('charging-status').textContent = 
+                        `⚡ Status: ${battery.charging ? 'Charging' : 'Not Charging'}`;
+                }
+
+                battery.addEventListener('levelchange', updateBatteryInfo);
+                battery.addEventListener('chargingchange', updateBatteryInfo);
+                updateBatteryInfo();
+            } catch (err) {
+                document.getElementById('battery-percent').textContent = 'N/A';
+                document.getElementById('charging-status').textContent = '⚡ Status: Unknown';
+            }
+        }
+
+        async function getIPAddress() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                document.getElementById('ip-address').textContent = data.ip;
+            } catch (err) {
+                document.getElementById('ip-address').textContent = 'Unavailable';
+            }
+        }
+
+        // Original Animation Code
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                gsap.to('.loader', {
+                    duration: 1,
+                    opacity: 0,
+                    onComplete: () => {
+                        document.querySelector('.loader').style.display = 'none';
+                        animateContent();
+                        // Show device info after loader
+                        setTimeout(() => {
+                            document.querySelector('.device-info').classList.add('show');
+                        }, 1000);
+                    }
+                });
+            }, 2000);
+
+            // Initialize device info
+            getBatteryInfo();
+            getIPAddress();
+        });
+
+        function animateContent() {
+            gsap.to('.header-content h1', {
+                duration: 1,
+                opacity: 1,
+                y: 0,
+                delay: 0.5
+            });
+
+            gsap.to('.header-content p', {
+                duration: 1,
+                opacity: 1,
+                y: 0,
+                delay: 0.8
+            });
+
+            new Typed('.typed-text', {
+                strings: [
+                    'Welcome to my world',
+                    'Let\'s connect',
+                    'Check out my social links below'
+                ],
+                typeSpeed: 50,
+                backSpeed: 30,
+                loop: true,
+                backDelay: 1500
+            });
+        }
+
+        // Social Links Hover Effect
+        document.querySelectorAll('.social-links a').forEach(link => {
+            link.addEventListener('mouseover', () => {
+                gsap.to(link, {
+                    duration: 0.3,
+                    scale: 1.1,
+                    ease: 'power1.out'
+                });
+            });
+
+            link.addEventListener('mouseout', () => {
+                gsap.to(link, {
+                    duration: 0.3,
+                    scale: 1,
+                    ease: 'power1.out'
+                });
+            });
+        });
+    </script>
+</body>
+          </html>
